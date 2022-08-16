@@ -13,17 +13,21 @@ func main() {
 	start := time.Now()
 	for i := 0; i < 10; i++ {
 		id := rnd.Intn(7) + 1
-		if i, ok := queryCacheFast(id); ok {
-			fmt.Println("From cache ", i)
-			continue
-		}
-		if i, ok := queryDatabaseSlow(id); ok {
-			fmt.Println("From database ", i)
-			continue
-		}
+		go func(id int) {
+			if i, ok := queryCacheFast(id); ok {
+				fmt.Println("From cache ", i)
+			}
+		}(id)
+
+		go func(id int) {
+			if i, ok := queryDatabaseSlow(id); ok {
+				fmt.Println("From database ", i)
+			}
+		}(id)
+
 		fmt.Println("Item not found")
-		time.Sleep(150 * time.Millisecond)
 	}
+	time.Sleep(time.Second * 2)
 	elapsed := time.Since(start)
 	fmt.Printf("\nexecution time %s", elapsed)
 }
