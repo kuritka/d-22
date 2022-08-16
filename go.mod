@@ -1,3 +1,3 @@
 module github.com/kuritka/d-22
 
-go 1.18
+go 1.17
