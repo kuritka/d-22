@@ -5,17 +5,17 @@ import (
 	"time"
 )
 
-type Item struct {
+type item struct {
 	ID    int
 	Name  string
 	Value int
 }
 
-func (i Item) String() string {
+func (i item) String() string {
 	return fmt.Sprintf("%v: %s %v ", i.ID, i.Name, i.Value)
 }
 
-var items = []Item{
+var items = []item{
 
 	{
 		ID:    1,
@@ -59,12 +59,12 @@ var items = []Item{
 	},
 }
 
-func queryCacheFast(id int) (Item, bool) {
+func queryCacheFast(id int) (item, bool) {
 	b, ok := cache[id]
 	return b, ok
 }
 
-func queryDatabaseSlow(id int) (Item, bool) {
+func queryDatabaseSlow(id int) (item, bool) {
 	time.Sleep(100 * time.Millisecond)
 	for _, item := range items {
 		if item.ID == id {
@@ -72,5 +72,5 @@ func queryDatabaseSlow(id int) (Item, bool) {
 			return item, true
 		}
 	}
-	return Item{}, false
+	return item{}, false
 }

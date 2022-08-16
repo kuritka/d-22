@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-var cache = map[int]Item{}
+var cache = map[int]item{}
 var rnd = rand.New(rand.NewSource(time.Now().UnixNano()))
 
 func main() {
@@ -25,7 +25,7 @@ func main() {
 			}
 		}(id)
 
-		fmt.Println("Item not found")
+		fmt.Println("item not found")
 	}
 	time.Sleep(time.Second * 2)
 	elapsed := time.Since(start)
