@@ -24,8 +24,8 @@ func main() {
 			filePath := watchedPatch + "/" + fi.Name()
 			f, _ := os.Open(filePath)
 			data, _ := ioutil.ReadAll(f)
-			f.Close()
-			os.Remove(filePath)
+			_ = f.Close()
+			_ = os.Remove(filePath)
 
 			go func(data string) {
 				//string to data reader
@@ -34,7 +34,7 @@ func main() {
 				for _, r := range records {
 					invoice := new(invoice)
 					invoice.Number = r[0]
-					invoice.Ammount, _ = strconv.ParseFloat(r[1], 64)
+					invoice.Amount, _ = strconv.ParseFloat(r[1], 64)
 					invoice.OrderNum, _ = strconv.Atoi(r[3])
 					unixTime, _ := strconv.ParseInt(r[3], 10, 64)
 					invoice.Date = time.Unix(unixTime, 0)
@@ -48,7 +48,7 @@ func main() {
 
 type invoice struct {
 	Number   string
-	Ammount  float64
+	Amount   float64
 	OrderNum int
 	Date     time.Time
 }

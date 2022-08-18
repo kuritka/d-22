@@ -16,7 +16,7 @@ type empl struct {
 	Status  string `json:"status"`
 	Message string `json:"message"`
 	Data    struct {
-		Id     int    `json:"id"`
+		ID     int    `json:"id"`
 		Name   string `json:"employee_name"`
 		Salary int    `json:"employee_salary"`
 		Age    int    `json:"employee_age"`
@@ -31,7 +31,7 @@ func main() {
 		wg.Add(1)
 		go func(wg *sync.WaitGroup, id int) {
 			resp, _ := http.Get(fmt.Sprintf("https://dummy.restapiexample.com/api/v1/employee/%d", id))
-			defer resp.Body.Close()
+			defer func() { _ = resp.Body.Close() }()
 			body, _ := ioutil.ReadAll(resp.Body)
 			e := empl{}
 			_ = json.Unmarshal(body, &e)
